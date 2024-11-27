@@ -1,0 +1,59 @@
+package com.qa.page;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.qa.Base.BaseClass;
+
+public class Homepage extends BaseClass {
+	@FindBy(xpath = "//div[@class='app_logo']")
+	WebElement homepagelogo;
+
+	@FindBy(xpath = "//div[@class='bm-burger-button']/button")
+	WebElement sideTaskBar;
+
+	@FindBy(xpath = "//a[@id='logout_sidebar_link']")
+	WebElement logout;
+	
+
+	public Homepage() {
+		PageFactory.initElements(driver, this);
+	}
+
+	public boolean HomepageLogo() {
+		boolean homePageLogo = homepagelogo.isDisplayed();
+		return homePageLogo;
+	}
+
+	public String HomepageTitle() {
+		String title = driver.getTitle();
+		return title;
+	}
+
+	// logout
+	public LoginPage Logout() {
+		sideTaskBar.click();
+		logout.click();
+		return new LoginPage();
+	}
+
+// Filter
+	public void Price_LowToHigh() {
+		List<WebElement> allPriceList = driver.findElements(By.xpath("//div[@class='inventory_item_price']"));
+		ArrayList<Double> sortedPriceList = new ArrayList<>();
+		
+		for (WebElement ele : allPriceList) {
+			sortedPriceList.add(Double.valueOf(ele.getText().replace("$", "")));
+		}
+	}
+
+	public void Price_HighToLow() {
+
+	}
+
+}

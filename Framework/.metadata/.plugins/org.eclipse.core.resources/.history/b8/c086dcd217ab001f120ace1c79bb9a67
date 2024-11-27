@@ -1,0 +1,97 @@
+package com.qa.Test;
+
+import java.io.File;
+import java.io.IOException;
+
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.qa.Base.BaseClass;
+import com.qa.page.Homepage;
+import com.qa.page.LoginPage;
+
+public class LoginPageTest extends BaseClass {
+
+	LoginPage loginpage;
+	Homepage homepage;
+
+	@BeforeClass
+	public void setup() throws Exception {
+
+		Initlization();
+
+		driver.get(props.getProperty("Url"));
+	}
+
+	@BeforeMethod
+	public void Start() throws Exception {
+
+		loginpage = new LoginPage();
+		homepage = new Homepage();
+		Thread.sleep(2000);
+	}
+
+	@Test(priority = 1)
+	public void LoginPageTitleTest() {
+		String expectedTitle = loginpage.LoginPageTitle();
+		Assert.assertEquals(expectedTitle, "Swag Labs");
+	}
+
+	@Test(priority = 2)
+	public void LoginLogoTest() {
+		boolean logo = loginpage.LoginPageLogo();
+		Assert.assertEquals(logo, true);
+	}
+
+	@Test(priority = 3, dependsOnMethods = "LoginPageTitleTest")
+	public void LoginWithValidCradential() throws Exception {
+		loginpage.ValidLoginCredential();
+		boolean logo = homepage.HomepageLogo();
+		Assert.assertEquals(logo, true);
+	}
+
+	@Test(priority = 4)
+	public void LoginWithInvalidUsername() throws Exception {
+		homepage.Logout();
+		loginpage.InvalidUsername();
+		boolean logo =  loginpage.LoginPageLogo();
+		Assert.assertEquals(logo, true);
+	}
+
+	@Test(priority = 5)
+	public void InvalidPassword() throws Exception {
+		driver.navigate().refresh();
+		Thread.sleep(2000);
+		loginpage.InvalidPassword();
+		boolean logo =  loginpage.LoginPageLogo();
+		Assert.assertEquals(logo, true);
+	}
+
+	@AfterMethod
+	public void ScreenShot(ITestResult result) {
+		if (ITestResult.FAILURE == result.getStatus()) {
+			TakesScreenshot ts = (TakesScreenshot) driver;
+			File src = ts.getScreenshotAs(OutputType.FILE);
+			File dist = new File("E:\\Framework\\E-commerce\\src\\test\\java\\com\\qa\\util\\ScreenShot\\"
+					+ result.getName() + ".jpg");
+			try {
+				FileUtils.copyFile(src, dist);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	@AfterClass
+	public void Teardown() {
+		driver.quit();
+	}
+}

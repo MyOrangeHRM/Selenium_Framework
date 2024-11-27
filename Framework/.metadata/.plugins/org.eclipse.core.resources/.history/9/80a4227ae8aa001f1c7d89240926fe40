@@ -1,0 +1,25 @@
+package com.qa.page;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.qa.Base.BaseClass;
+
+public class LoginPage extends BaseClass {
+
+	@FindBy(xpath = "//input[@id='userEmail']")
+	WebElement username;
+
+	@FindBy(xpath = "//input[@id='userPassword']")
+	WebElement password;
+
+	@FindBy(xpath = "//input[@id='login']")
+	WebElement loginbtn;
+	
+	
+	public LoginPage() {
+		PageFactory.initElements(driver, this);
+	}
+	
+}

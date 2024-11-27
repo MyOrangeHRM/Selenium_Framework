@@ -1,0 +1,7 @@
+package com.qa.page;
+
+import com.qa.Base.BaseClass;
+
+public class Place_Order extends BaseClass{
+
+}

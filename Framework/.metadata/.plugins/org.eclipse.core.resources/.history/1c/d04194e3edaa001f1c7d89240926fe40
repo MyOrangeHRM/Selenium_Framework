@@ -1,0 +1,47 @@
+package com.qa.Test;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.qa.Base.BaseClass;
+import com.qa.page.LoginPage;
+
+public class LoginTest extends BaseClass {
+
+	LoginPage loginpage;
+
+	public void Setup() {
+		try {
+			Initlization();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		driver.get("https://rahulshettyacademy.com/client/auth/login");
+
+	}
+
+	@BeforeMethod
+	public void Start() {
+		loginpage = new LoginPage();
+	}
+
+	@Test
+	public void LoginPageTitleTest() {
+		String expectedTitle = loginpage.LoginPageTitle();
+		Assert.assertEquals(expectedTitle, "", "Title of login page is not as expected");
+	}
+
+	@Test
+	public void LoginPageLogoTest() {
+		boolean display = loginpage.LoginPageLogo();
+		Assert.assertEquals(display, true);
+	}
+
+	@AfterMethod
+	public void Teardown() {
+		driver.quit();
+	}
+}

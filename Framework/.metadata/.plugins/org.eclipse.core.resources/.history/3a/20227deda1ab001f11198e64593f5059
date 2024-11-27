@@ -1,0 +1,20 @@
+package com.qa.page;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import com.qa.Base.BaseClass;
+
+public class Place_Order extends BaseClass{
+
+	@FindBy(xpath = "(//div[@class='inventory_item']/div/a/img)[1]")
+	WebElement product
+	@FindBy(xpath = "")
+	WebElement 
+	@FindBy(xpath = "")
+	WebElement 
+	@FindBy(xpath = "")
+	WebElement 
+	@FindBy(xpath = "")
+	WebElement 
+}

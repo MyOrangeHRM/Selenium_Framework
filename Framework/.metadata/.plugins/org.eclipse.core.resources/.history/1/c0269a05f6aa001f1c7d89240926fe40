@@ -1,0 +1,43 @@
+package com.qa.page;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.qa.Base.BaseClass;
+
+public class LoginPage extends BaseClass {
+
+	@FindBy(xpath = "//input[@id='userEmail']")
+	WebElement username;
+
+	@FindBy(xpath = "//input[@id='userPassword']")
+	WebElement password;
+
+	@FindBy(xpath = "//input[@id='login']")
+	WebElement loginbtn;
+
+	@FindBy(xpath = "")
+	WebElement LoginLogo;
+
+	public LoginPage() {
+		PageFactory.initElements(driver, this);
+	}
+// LoginPage Title
+	public String LoginPageTitle() {
+		String title = driver.getTitle();
+		return title;
+	}
+//Login Page Logo
+	public boolean LoginPageLogo() {
+		boolean logo = LoginLogo.isDisplayed();
+		return logo;
+	}
+//Login with valid credential
+	public Homepage LoginCredential() {
+		username.sendKeys(props.getProperty("username"));
+		password.sendKeys(props.getProperty("password"));
+		loginbtn.click();
+		return new Homepage();
+	}
+}

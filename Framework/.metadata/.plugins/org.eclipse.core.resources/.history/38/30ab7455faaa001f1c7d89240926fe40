@@ -1,0 +1,47 @@
+package com.qa.Test;
+
+import org.testng.Assert;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import com.qa.Base.BaseClass;
+import com.qa.page.Homepage;
+import com.qa.page.LoginPage;
+
+public class LoginPageTest extends BaseClass {
+
+	LoginPage loginpage;
+	Homepage homepage;
+
+	public void Setup() {
+		Initlization();
+	
+
+	}
+
+	@BeforeMethod
+	public void Start() {
+
+		loginpage = new LoginPage();
+		homepage = new Homepage();
+	}
+
+	@Test
+	public void LoginPageTitleTest() {
+		String expectedTitle = loginpage.LoginPageTitle();
+		Assert.assertEquals(expectedTitle, "Let's Shop", "Title of login page is not as expected");
+	}
+
+	@Test
+	public void LoginCradentialTest() {
+		loginpage.LoginCredential();
+		boolean logo = homepage.HomepageLogo();
+		Assert.assertEquals(logo, true);
+	}
+
+	@AfterMethod
+	public void Teardown() {
+		driver.quit();
+	}
+}
